@@ -3,275 +3,331 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TIDE — Hiring Assistant (Hybrid)</title>
+  <title>TIDE — Hiring Manager Assistant</title>
   <style>
     :root{
       --tide-blue:#0B4ADE;
       --accent:#3758ff;
       --bg:#f4f6fb;
       --card:#ffffff;
-      --glass: rgba(255,255,255,0.65);
       --muted:#6b7280;
     }
-    /* Base */
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background: linear-gradient(180deg,#f6f8ff,#f3f6fb);
       -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:28px;
-      display:flex;
-      justify-content:center;
-      min-height:100vh;
+      padding: 20px;
+      color: #07204a;
     }
 
     /* Header */
     .site-header{
-      position:fixed;
-      left:0; right:0;
-      top:0;
-      height:64px;
-      display:flex;
-      align-items:center;
-      gap:14px;
-      padding:0 22px;
-      background:linear-gradient(90deg,var(--tide-blue), #2740d6);
-      color:white;
-      box-shadow: 0 6px 24px rgba(11, 74, 222, 0.12);
-      z-index:1000;
-    }
-    .site-header .brand {
       display:flex;
       align-items:center;
       gap:12px;
-    }
-    .brand img{ height:40px; width:40px; object-fit:contain; border-radius:8px; background:white; padding:4px;}
-    .brand .title{ font-weight:700; font-size:18px; letter-spacing:0.4px; }
-    .site-header .subtitle{ font-size:13px; opacity:0.9; margin-left:6px; color:rgba(255,255,255,0.92) }
-
-    /* Page layout */
-    .page {
-      width:100%;
+      padding:12px 18px;
+      background: linear-gradient(90deg,var(--tide-blue), #2740d6);
+      color:white;
+      border-radius:10px;
+      box-shadow:0 8px 24px rgba(11,74,222,0.12);
       max-width:1180px;
-      margin-top:90px; /* to clear fixed header */
+      margin:0 auto 18px auto;
+    }
+    .site-header img{ height:44px; width:44px; object-fit:contain; border-radius:8px; background:white; padding:4px; }
+    .site-header h1{ font-size:18px; margin:0; letter-spacing:0.4px; }
+
+    /* Layout */
+    .container{
+      max-width:1180px;
+      margin:0 auto;
       display:grid;
       grid-template-columns: 1fr 360px;
-      gap:28px;
+      gap:20px;
       align-items:start;
-      padding: 6px;
     }
+    @media (max-width:980px){ .container{ grid-template-columns: 1fr; padding:0 14px } }
 
-    /* Floating chat card (center-left) */
-    .floating-card {
-      margin: 0 auto;
-      width:100%;
-      max-width:720px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
-      border-radius:18px;
-      box-shadow: 0 24px 60px rgba(12,20,40,0.12);
-      backdrop-filter: blur(8px) saturate(120%);
-      border: 1px solid rgba(10,18,40,0.04);
-      display:flex;
-      overflow:hidden;
-      flex-direction:column;
-    }
-
-    .card-top{
-      padding:18px 18px 6px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .card-top .left{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-    .bot-identity{
-      display:flex;
-      gap:10px; align-items:center;
-    }
-    .bot-avatar{
-      width:56px; height:56px; border-radius:50%; overflow:hidden; display:block; box-shadow:0 6px 20px rgba(11,74,222,0.12); background:white;
-    }
-    .bot-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .bot-title{ font-size:16px; font-weight:700; }
-    .bot-sub{ font-size:13px; color:var(--muted); margin-top:4px; }
-
-    /* Quick action buttons (icons + labels) */
-    .actions {
-      padding:10px 18px 18px 18px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .act-btn {
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 12px;
-      border-radius:12px;
-      background:linear-gradient(180deg,#ffffff,#f7f9ff);
-      border:1px solid rgba(11,74,222,0.06);
-      cursor:pointer;
-      transition:transform .14s ease, box-shadow .14s ease;
-      box-shadow:0 6px 20px rgba(11,74,222,0.06);
-      font-weight:600;
-      color:var(--tide-blue);
-    }
-    .act-btn:hover{ transform:translateY(-4px); box-shadow:0 18px 40px rgba(11,74,222,0.12); }
-
-    /* Chat area */
-    .chat-area{
-      padding:14px 18px 6px 18px;
-      max-height:420px;
-      overflow:auto;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-
-    .msg-row{ display:flex; gap:12px; align-items:flex-end; }
-    .msg-row.bot { justify-content:flex-start; }
-    .msg-row.user { justify-content:flex-end; }
-
-    .bubble {
-      max-width:72%;
+    /* Floating chat card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
       border-radius:14px;
-      padding:12px 14px;
+      padding:16px;
+      box-shadow:0 24px 60px rgba(12,20,40,0.06);
+      border:1px solid rgba(11,74,222,0.03);
+    }
+
+    .hero{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:12px;
+    }
+    .hero h2{ margin:0; font-size:18px; }
+    .hero p{ margin:6px 0 0 0; color:var(--muted); font-size:13px; }
+
+    /* actions */
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 14px 0; }
+    .btn {
+      background:var(--tide-blue);
+      color:white;
+      border:0;
+      padding:10px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 10px 30px rgba(11,74,222,0.08);
+    }
+    .btn.ghost{
+      background:white; color:var(--tide-blue); border:1px solid rgba(11,74,222,0.08);
+    }
+
+    /* search */
+    .search {
+      display:flex; gap:8px; margin:12px 0;
+    }
+    .search input{
+      flex:1; padding:10px 12px; border-radius:10px; border:1px solid #e6eefc;
       font-size:14px;
-      line-height:1.45;
-      box-shadow:0 8px 20px rgba(12,20,40,0.06);
-      animation:pop .12s ease;
-    }
-    @keyframes pop { from{ transform:scale(.985); opacity:0 } to{ transform:none; opacity:1 } }
-
-    .bubble.bot {
-      background: linear-gradient(180deg,#f1f6ff,#eef5ff);
-      color:#05266d;
-      border-bottom-left-radius:4px;
-    }
-    .bubble.user {
-      background: linear-gradient(180deg,#dfe9ff,#d0e2ff);
-      color:#032a6b;
-      border-bottom-right-radius:4px;
     }
 
-    .avatar-small{ width:36px; height:36px; border-radius:50%; overflow:hidden; flex:0 0 36px; box-shadow:0 6px 18px rgba(11,74,222,0.08); }
-    .avatar-small img{ width:100%; height:100%; object-fit:cover; display:block; }
+    /* result area */
+    .result{
+      margin-top:12px;
+      padding:12px;
+      border-radius:10px;
+      background: #f8fbff;
+      border:1px solid rgba(11,74,222,0.04);
+      color:#07306a;
+    }
 
-    /* Input area bottom */
-    .card-bottom{
-      padding:14px 18px;
-      border-top:1px solid rgba(11,74,222,0.03);
-      display:flex;
-      gap:10px;
-      align-items:center;
-      background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.5));
-    }
-    .input-field{
-      flex:1;
-      padding:12px 14px;
-      font-size:15px;
-      border-radius:12px;
-      border:1px solid rgba(12,20,40,0.06);
-      background:transparent;
-    }
-    .send-btn{ background:var(--tide-blue); color:white; padding:10px 14px; border-radius:10px; border:0; cursor:pointer; font-weight:700; }
-
-    /* Right-side resources */
-    .side {
-      min-width:260px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .card {
-      background:var(--card);
-      border-radius:12px;
-      padding:14px;
-      box-shadow:0 8px 26px rgba(12,20,40,0.04);
-    }
-    .card h3{ margin:0 0 8px 0; }
-    .link { display:block; padding:10px; border-radius:8px; text-decoration:none; color:var(--tide-blue); font-weight:600; border:1px solid rgba(11,74,222,0.06); background:linear-gradient(180deg,#fff,#fbfdff); margin-bottom:8px; }
+    /* right column */
+    .side .card{ margin-bottom:14px; }
+    .link{ display:block; padding:10px; border-radius:8px; text-decoration:none; color:var(--tide-blue); font-weight:700; border:1px solid rgba(11,74,222,0.06); margin-bottom:8px; background:#fff; }
     .muted{ color:var(--muted); font-size:13px; }
 
-    /* typing indicator */
-    .typing { font-size:13px; color:var(--muted); padding-left:8px; display:none; }
+    /* faqs */
+    .faq-item { margin-bottom:10px; }
+    .faq-q { font-weight:700; cursor:pointer; padding:8px; border-radius:8px; background:#fbfdff; border:1px solid rgba(11,74,222,0.03); }
+    .faq-a { padding:8px 10px; margin-top:6px; display:none; color:var(--muted); }
 
-    /* responsive */
-    @media (max-width:980px){
-      .page{ grid-template-columns: 1fr; padding:12px; }
-      .side { order:2; }
-      .floating-card{ order:1; margin-bottom:18px; }
-    }
+    /* small helpers */
+    .small { font-size:13px; color:var(--muted); }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header class="site-header" role="banner">
-    <div class="brand" style="display:flex;align-items:center">
-      <!-- Use repo-relative filename 'logo.png' when you upload; currently referencing uploaded path -->
-      <img src="/mnt/data/logo.png" alt="TIDE logo" aria-hidden="true">
-      <div>
-        <div class="title">TIDE</div>
-        <div class="subtitle">Hiring Manager Assistant</div>
-      </div>
+    <!-- NOTE: after uploading logo.png to repo root, change src below to "logo.png" -->
+    <img src="logo.png" alt="TIDE logo">
+    <div>
+      <h1>TIDE — Hiring Manager Assistant</h1>
+      <div class="small">Quick access to JD, SPOT, Pipeline, Offers, Trends & FAQs</div>
     </div>
   </header>
 
-  <!-- Main page -->
-  <main class="page" role="main" aria-live="polite">
+  <main class="container">
 
-    <!-- Floating chat card -->
-    <section class="floating-card" aria-label="Chat window">
-      <div class="card-top">
-        <div class="left">
-          <div class="bot-identity">
-            <div class="bot-avatar" aria-hidden="true">
-              <!-- Using the uploaded file as avatar; replace with a different file if desired -->
-              <img src="/mnt/data/logo.png" alt="Bot avatar">
-            </div>
-            <div>
-              <div class="bot-title">TIDE Assistant</div>
-              <div class="bot-sub">Ask for JD, SPOT, Pipeline or Dashboards</div>
-            </div>
-          </div>
-        </div>
-        <div class="right" style="display:flex;align-items:center;gap:10px">
-          <div class="muted" style="font-size:13px">Ready to help</div>
+    <!-- LEFT: main chat / actions -->
+    <section class="card" aria-label="Assistant">
+      <div class="hero">
+        <div>
+          <h2>Hi — I’m your TIDE Assistant 👋</h2>
+          <p>Type a question (example: "Show SPOT", "Hiring trends", or "Comp bands"). Or pick a quick action below.</p>
         </div>
       </div>
 
+      <!-- actions -->
       <div class="actions" role="toolbar" aria-label="Quick actions">
-        <div class="act-btn" onclick="action('jd')">📄 JD Template</div>
-        <div class="act-btn" onclick="action('spot')">📝 SPOT</div>
-        <div class="act-btn" onclick="action('pipeline')">  pipeline</div>
-        <div class="act-btn" onclick="action('hiring')">📊 Hiring Dash</div>
-        <div class="act-btn" onclick="action('offer')">💼 Offer Dash</div>
+        <button class="btn" onclick="openLink('JD')">📄 JD Template</button>
+        <button class="btn" onclick="openLink('SPOT')">📝 SPOT Template</button>
+        <button class="btn" onclick="openLink('PIPELINE')">📊 Pipeline (Greenhouse)</button>
+        <button class="btn" onclick="openLink('OFFER')">💼 Offer Dashboard</button>
+        <button class="btn" onclick="openLink('HIRING_DASH')">📈 Hiring Dashboard</button>
+        <button class="btn" onclick="openLink('INTERVIEW_FRAME')">🧭 Interview Framework</button>
       </div>
 
-      <div class="chat-area" id="chatArea" role="log">
-        <!-- messages injected here -->
+      <!-- search -->
+      <div class="search" role="search">
+        <input id="searchBox" placeholder="Ask: e.g., 'hiring trends', 'comp bands', 'FAQs'">
+        <button class="btn" onclick="onSearch()">Search</button>
       </div>
 
-      <div class="card-bottom">
-        <input id="inputBox" class="input-field" placeholder="Try: 'Show JD' or 'Open pipeline'">
-        <button class="send-btn" onclick="onSend()">Send</button>
-        <div class="typing" id="typing">Typing…</div>
+      <!-- result -->
+      <div id="result" class="result" aria-live="polite">
+        Try: "Show JD", "Open SPOT", "Hiring trends", "Comp bands", or "Give hiring manager FAQs".
       </div>
+
+      <!-- expandable FAQ preview -->
+      <div style="margin-top:12px">
+        <h3 style="margin:0 0 8px 0">Quick Hiring Manager FAQs</h3>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How long does Offer approval usually take?</div>
+          <div class="faq-a">Usually 24-48 business hours depending on budget approvals; Reach out to respective recruiter if faster support needed.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How do I track candidate progress?</div>
+          <div class="faq-a">use ATS (Applicant Tracking System) i.e Greenhouse dashboards where you can view pipeline stages, feedback, and interview schedules.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How do I request market insights?</div>
+          <div class="faq-a">HR or Talent Intelligence teams provide salary benchmarks, hiring trends, and competitor hiring data. </div>
+        </div>
+      </div>
+
     </section>
 
-    <!-- Right side resources -->
-    <aside class="side" aria-label="Resources">
+    <!-- RIGHT: resources -->
+    <aside class="side">
+
       <div class="card">
-        <h3>Quick links</h3>
-        <p class="muted">Open any resource in a new tab.</p>
-        <a class="link" href="https://docs.google.com/document/d/1Z5tKJ6HV--qRoI69VKSMv_GrnzT6rf57tpFsvvr2GzE/edit?tab=t.0" target="_blank" rel="noopener">Open JD Template</a>
-        <a class="link" href="https://docs.google.com/document/d/1gFJww0vCNeqDkvLaPJ13Jv8WkhGt0cJtKzw17WrXLmA/edit?tab=t.0" target="_blank" rel="noopener">Open SPOT Template</a>
+        <h3 style="margin:0 0 8px 0">Resources</h3>
+        <div class="muted">Click to open in a new tab</div>
+        <a class="link" href="https://docs.google.com/document/d/1Z5tKJ6HV--qRoI69VKSMv_GrnzT6rf57tpFsvvr2GzE/edit?usp=sharing" target="_blank" rel="noopener">Open JD Template</a>
+        <a class="link" href="https://docs.google.com/document/d/1gFJww0vCNeqDkvLaPJ13Jv8WkhGt0cJtKzw17WrXLmA/edit?usp=sharing" target="_blank" rel="noopener">Open SPOT Template</a>
         <a class="link" href="https://app3.greenhouse.io/alljobs" target="_blank" rel="noopener">Greenhouse — All Jobs (Pipeline)</a>
-        <a class="link" href="https://lookerstudio.
+        <a class="link" href="https://lookerstudio.google.com/reporting/76c85a51-3969-43fe-854d-ce5e9d9fa509/page/p_lswqdzrkqd" target="_blank" rel="noopener">Hiring Dashboard</a>
+        <a class="link" href="https://lookerstudio.google.com/u/0/reporting/662fbf48-0ca0-496b-ac66-fe7dbb93e48f/page/p_xpm2or0bqd?s=myW_FlYQ7V0" target="_blank" rel="noopener">Offer Dashboard</a>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">Interview Framework</h3>
+        <p class="muted">Canonical job stages & interview process suggested by TIDE.</p>
+        <a class="link" href="https://tideaccount.atlassian.net/wiki/spaces/PPL/pages/5747802357/Tide+Job+Stages+Interview+Process+Framework" target="_blank" rel="noopener">Open Interview Framework</a>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">Hiring Trends (public)</h3>
+        <p class="muted">Useful public reports & signals for market context.</p>
+        <a class="link" href="https://insights.stackoverflow.com/survey" target="_blank" rel="noopener">Stack Overflow Developer Survey</a>
+        <a class="link" href="https://github.com/octoverse" target="_blank" rel="noopener">GitHub Octoverse / State of the Octoverse</a>
+        <a class="link" href="https://www.hiringlab.org/" target="_blank" rel="noopener">Indeed Hiring Lab</a>
+        <a class="link" href="https://www.bls.gov/ooh/" target="_blank" rel="noopener">US Bureau of Labor Statistics — Occupational Outlook</a>
+        <a class="link" href="https://www.glassdoor.com/research/" target="_blank" rel="noopener">Glassdoor Economic Research</a>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">Newsletter & Comp bands</h3>
+        <p class="muted">Quick access for HMs to compensation bands & newsletter.</p>
+        <a class="link" href="" id="newsletterLink" target="_blank" rel="noopener">Talent Newsletter</a>
+        <a class="link" href="https://docs.google.com/spreadsheets/d/1z-ci1TjTPEe8POa2yyFklgy9tY2q67o48A2Gljm5GnE/edit?gid=927380060#gid=927380060" id="compBandsLink" target="_blank" rel="noopener">Compensation Bands </a>
+      </div>
+
+    </aside>
+
+  </main>
+
+<script>
+  // ======= Edit links here =========
+  const LINKS = {
+    JD: "https://docs.google.com/document/d/1Z5tKJ6HV--qRoI69VKSMv_GrnzT6rf57tpFsvvr2GzE/edit",
+    SPOT: "https://docs.google.com/document/d/1gFJww0vCNeqDkvLaPJ13Jv8WkhGt0cJtKzw17WrXLmA/edit",
+    PIPELINE: "https://app3.greenhouse.io/alljobs",
+    HIRING_DASH: "https://lookerstudio.google.com/reporting/76c85a51-3969-43fe-854d-ce5e9d9fa509/page/p_lswqdzrkqd",
+    OFFER_DASH: "https://lookerstudio.google.com/u/0/reporting/662fbf48-0ca0-496b-ac66-fe7dbb93e48f/page/p_xpm2or0bqd?s=myW_FlYQ7V0",
+    INTERVIEW_FRAME: "https://tideaccount.atlassian.net/wiki/spaces/PPL/pages/5747802357/Tide+Job+Stages+Interview+Process+Framework",
+    NEWSLETTER: "", // <- put newsletter URL here
+    COMP_BANDS: ""  // <- put comp-band doc URL here
+  };
+
+  // small helper to open links
+  function openLink(key){
+    const url = LINKS[key];
+    if (!url || url.trim()===""){
+      showError("Link not set. Please update the LINKS object in the HTML.");
+      return;
+    }
+    window.open(url, "_blank");
+  }
+
+  function showError(msg){
+    const r = document.getElementById('result');
+    r.innerHTML = `<div style="color:#b43434"><strong>⚠ ${msg}</strong></div>`;
+    // also flash right column error box if present
+    const errBox = document.getElementById('errorBox');
+    if (errBox) { errBox.style.display='block'; setTimeout(()=>errBox.style.display='none',3500); }
+  }
+
+  // Search logic: small keyword matcher to find relevant content
+  function onSearch(){
+    const q = (document.getElementById('searchBox').value || "").toLowerCase().trim();
+    if (!q) {
+      document.getElementById('result').innerHTML = 'Try: "Show JD", "SPOT", "hiring trends", "comp bands", or "interview framework".';
+      return;
+    }
+
+    // direct keyword shortcuts
+    if (q.includes("jd") || q.includes("job description")) {
+      document.getElementById('result').innerHTML = `<b>JD Template</b><br><a href="${LINKS.JD}" target="_blank">Open JD Template</a>`;
+      return;
+    }
+    if (q.includes("spot")) {
+      document.getElementById('result').innerHTML = `<b>SPOT Template</b><br><a href="${LINKS.SPOT}" target="_blank">Open SPOT Template</a>`;
+      return;
+    }
+    if (q.includes("pipeline") || q.includes("greenhouse") || q.includes("jobs")) {
+      document.getElementById('result').innerHTML = `<b>Pipeline (Greenhouse)</b><br><a href="${LINKS.PIPELINE}" target="_blank">Open Pipeline</a>`;
+      return;
+    }
+    if (q.includes("offer")) {
+      document.getElementById('result').innerHTML = `<b>Offer Dashboard</b><br><a href="${LINKS.OFFER_DASH}" target="_blank">Open Offer Dashboard</a>`;
+      return;
+    }
+    if (q.includes("hiring dash") || q.includes("hiring dashboard")) {
+      document.getElementById('result').innerHTML = `<b>Hiring Dashboard</b><br><a href="${LINKS.HIRING_DASH}" target="_blank">Open Hiring Dashboard</a>`;
+      return;
+    }
+    if (q.includes("interview") || q.includes("framework")) {
+      document.getElementById('result').innerHTML = `<b>Interview Framework</b><br><a href="${LINKS.INTERVIEW_FRAME}" target="_blank">Open Interview Framework</a>`;
+      return;
+    }
+    if (q.includes("trend") || q.includes("hiring trend") || q.includes("market")) {
+      // show the list of public trend links
+      document.getElementById('result').innerHTML = `<b>Hiring Trends — public sources</b>
+        <ul style="margin:8px 0 0 18px">
+          <li><a href="https://insights.stackoverflow.com/survey" target="_blank">Stack Overflow Developer Survey</a></li>
+          <li><a href="https://github.com/octoverse" target="_blank">GitHub Octoverse</a></li>
+          <li><a href="https://www.hiringlab.org/" target="_blank">Indeed Hiring Lab</a></li>
+          <li><a href="https://www.bls.gov/ooh/" target="_blank">US BLS — Occupational Outlook</a></li>
+          <li><a href="https://www.glassdoor.com/research/" target="_blank">Glassdoor Research</a></li>
+        </ul>`;
+      return;
+    }
+    if (q.includes("comp") || q.includes("band") || q.includes("salary")) {
+      if (LINKS.COMP_BANDS) document.getElementById('result').innerHTML = `<b>Compensation Bands</b><br><a href="${LINKS.COMP_BANDS}" target="_blank">Open Comp Bands</a>`;
+      else showError("Work in progress..");
+      return;
+    }
+    if (q.includes("newsletter")) {
+      if (LINKS.NEWSLETTER) document.getElementById('result').innerHTML = `<b>Newsletter</b><br><a href="${LINKS.NEWSLETTER}" target="_blank">Open Talent Newsletter</a>`;
+      else showError("Work in progress..");
+      return;
+    }
+
+    // fallback: show helpful suggestions
+    document.getElementById('result').innerHTML = `<b>I couldn't find an exact match.</b><div style="margin-top:8px" class="small">Try: "Show JD", "Open SPOT", "hiring trends", "comp bands", "interview framework", or click a quick action above.</div>`;
+  }
+
+  // small FAQ toggles
+  function toggleFaq(el){
+    const a = el.nextElementSibling;
+    if (!a) return;
+    a.style.display = (a.style.display === 'block') ? 'none' : 'block';
+  }
+
+  // configure newsletter & comp band links in right column placeholders
+  (function init(){
+  const nl = document.getElementById('newsletterLink');
+    const cb = document.getElementById('compBandsLink');
+   if (nl) nl.href = LINKS.NEWSLETTER || "Work in progress..";
+    if (cb) cb.href = LINKS.COMP_BANDS || "Work in progress..";
+  })();
+
+</script>
+
+</body>
+</html>
