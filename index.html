@@ -123,8 +123,9 @@
     <img src="logo.png" alt="TIDE logo">
     <div>
       <h1>TIDE — Hiring Manager Assistant</h1>
-      <div class="small">Quick access to JD, SPOT, Pipeline, Offers, Trends & FAQs</div>
-    </div>
+<div class="small" style="color: #ffffff; font-weight: 700;">
+  Quick access to JD, SPOT, Pipeline, Offers, Trends & FAQs
+</div>    </div>
   </header>
 
   <main class="container">
@@ -256,6 +257,24 @@ href="https://lookerstudio.google.com/u/0/reporting/662fbf48-0ca0-496b-ac66-fe7d
   // Search logic: small keyword matcher to find relevant content
   function onSearch(){
     const q = (document.getElementById('searchBox').value || "").toLowerCase().trim();
+    // greetings block
+if (["hi", "hello", "hey", "hii", "hiii"].includes(q)) {
+  document.getElementById('result').innerHTML =
+    `<b>Hello Hiring Leader! 👋</b><br>
+     Hope you’re having a great day.<br>
+     <br>Quick recruiter check-in: <i>"How’s hiring going today? Any fires to put out? 🔥😄"</i><br>
+     I’m here if you need JD, SPOT, pipeline, market intel, or anything else.`;
+  return;
+}
+
+if (q.includes("how are you")) {
+  document.getElementById('result').innerHTML =
+    `<b>I’m doing great! 😄</b><br>
+     Busy helping you hire faster!<br>
+     <br>Fun recruiter question: <i>"How many candidates ghosted you this week?" 👻😂</i>`;
+  return;
+}
+
     if (!q) {
       document.getElementById('result').innerHTML = 'Try: "Show JD", "SPOT", "hiring trends", "comp bands", or "interview framework".';
       return;
@@ -300,12 +319,12 @@ href="https://lookerstudio.google.com/u/0/reporting/662fbf48-0ca0-496b-ac66-fe7d
     }
     if (q.includes("comp") || q.includes("band") || q.includes("salary")) {
       if (LINKS.COMP_BANDS) document.getElementById('result').innerHTML = `<b>Compensation Bands</b><br><a href="${LINKS.COMP_BANDS}" target="_blank">Open Comp Bands</a>`;
-      else showError("Work in progress..");
+      else showError("⏳ We are working on this! You’ll see more exciting updates here soon.");
       return;
     }
     if (q.includes("newsletter")) {
       if (LINKS.NEWSLETTER) document.getElementById('result').innerHTML = `<b>Newsletter</b><br><a href="${LINKS.NEWSLETTER}" target="_blank">Open Talent Newsletter</a>`;
-      else showError("Work in progress..");
+      else showError("⏳ We are working on this! You’ll see more exciting updates here soon.");
       return;
     }
 
@@ -332,3 +351,4 @@ href="https://lookerstudio.google.com/u/0/reporting/662fbf48-0ca0-496b-ac66-fe7d
 
 </body>
 </html>
+
