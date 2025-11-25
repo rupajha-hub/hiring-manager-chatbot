@@ -103,7 +103,8 @@
   <img src="logo.png" alt="TIDE logo">
   <div>
     <h1>TIDE — Hiring Manager Assistant</h1>
-    <div class="small">Quick access to JD, SPOT, Pipeline, Offers, Trends & FAQs</div>
+    <div class="small" style="color:#e8ecff;font-weight:500">
+Quick access to JD, SPOT, Pipeline, Offers, Trends & FAQs</div>
   </div>
 </header>
 
@@ -281,6 +282,12 @@
       document.getElementById('result').innerHTML = `<b>Pipeline (Greenhouse)</b><br><a href="${LINKS.PIPELINE}" target="_blank">Open Pipeline</a>`;
       return;
     }
+
+    if (q.includes("hiring pipeline") || q.includes("pipeline performance")) {
+  document.getElementById('result').innerHTML =
+    `<b>Hiring Dashboard</b><br><a href="${LINKS.HIRING_DASH}" target="_blank">Open Hiring Dashboard</a>`;
+  return;
+}
     if (q.includes("offer")) {
       document.getElementById('result').innerHTML = `<b>Offer Dashboard</b><br><a href="${LINKS.OFFER_DASH}" target="_blank">Open Offer Dashboard</a>`;
       return;
@@ -295,7 +302,13 @@
       document.getElementById('result').innerHTML = `<b>Hiring Dashboard</b><br><a href="${LINKS.HIRING_DASH}" target="_blank">Open Hiring Dashboard</a>`;
       return;
     }
-    if (q.includes("goodtime calendar")) {
+   if (
+  q.includes("set my calendar") ||
+  q.includes("good time") ||
+  q.includes("goodtime") ||
+  q.includes("schedule interview") ||
+  q.includes("how to use good time")
+)  {
       document.getElementById('result').innerHTML = `<b>Goodtime Calendar</b><br><a href="${LINKS.GOODTIME_CAL}" target="_blank">Open Goodtime Calendar</a>`;
       return;
     }
@@ -318,8 +331,8 @@
       return;
     }
 
-    document.getElementById('result').innerHTML = `<b>I couldn’t find an exact match.</b><div style="margin-top:8px" class="small">Try: "Show JD", "Open SPOT", "hiring trends", "comp bands", "interview framework", or click a quick action above.</div>`;
-  }
+document.getElementById('result').innerHTML =
+  `<b>I’m still learning!</b><br><span class="small">Try: “Show JD”, “Hiring trends”, “Offer”, “Goodtime calendar”, or tap a quick action.</span>`;  }
 
   function toggleFaq(el){
     const a = el.nextElementSibling;
@@ -330,3 +343,4 @@
 
 </body>
 </html>
+
