@@ -262,7 +262,7 @@ if (["hi", "hello", "hey", "hii", "hiii"].includes(q)) {
   document.getElementById('result').innerHTML =
     `<b>Hello Hiring Leader! 👋</b><br>
      Hope you’re having a great day.<br>
-     <br>Quick recruiter check-in: <i>"How’s hiring going today? Any fires to put out? 🔥😄"</i><br>
+     <br>Quick recruiter check-in: <i>"How’s hiring going today?😄"</i><br>
      I’m here if you need JD, SPOT, pipeline, market intel, or anything else.`;
   return;
 }
@@ -271,7 +271,6 @@ if (q.includes("how are you")) {
   document.getElementById('result').innerHTML =
     `<b>I’m doing great! 😄</b><br>
      Busy helping you hire faster!<br>
-     <br>Fun recruiter question: <i>"How many candidates ghosted you this week?" 👻😂</i>`;
   return;
 }
 
@@ -347,8 +346,17 @@ if (q.includes("how are you")) {
     if (cb) cb.href = LINKS.COMP_BANDS || "Work in progress..";
   })();
 
+  // Trigger search when pressing Enter inside the search box
+document.getElementById("searchBox").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    onSearch();
+  }
+});
+
+
 </script>
 
 </body>
 </html>
+
 
