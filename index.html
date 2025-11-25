@@ -205,11 +205,26 @@ href="https://lookerstudio.google.com/u/0/reporting/662fbf48-0ca0-496b-ac66-fe7d
       <div class="card">
         <h3 style="margin:0 0 8px 0">Hiring Trends (public)</h3>
         <p class="muted">Useful public reports & signals for market context.</p>
-        <a class="link" href="https://insights.stackoverflow.com/survey" target="_blank" rel="noopener">Stack Overflow Developer Survey</a>
-        <a class="link" href="https://github.com/octoverse" target="_blank" rel="noopener">GitHub Octoverse / State of the Octoverse</a>
-        <a class="link" href="https://www.hiringlab.org/" target="_blank" rel="noopener">Indeed Hiring Lab</a>
-        <a class="link" href="https://www.bls.gov/ooh/" target="_blank" rel="noopener">US Bureau of Labor Statistics — Occupational Outlook</a>
-        <a class="link" href="https://www.glassdoor.com/research/" target="_blank" rel="noopener">Glassdoor Economic Research</a>
+        <!-- Europe -->
+  <a class="link" href="https://ec.europa.eu/eurostat/web/products-eurostat-news" 
+     target="_blank" rel="noopener">Eurostat Labour Market Trends (EU)</a>
+
+  <a class="link" href="https://www.hiringlab.org/uk/wp-content/uploads/sites/3/2025/03/European_Chartbook_Mar25.pdf" 
+     target="_blank" rel="noopener">Indeed Hiring Lab — Europe Chartbook</a>
+
+  <!-- UK -->
+  <a class="link" href="https://www.ons.gov.uk/employmentandlabourmarket" 
+     target="_blank" rel="noopener">UK ONS — Labour Market Overview</a>
+
+  <a class="link" href="https://www.cbi.org.uk/articles/" 
+     target="_blank" rel="noopener">CBI UK Labour Market Updates</a>
+
+  <!-- India -->
+  <a class="link" href="https://www.mospi.gov.in" 
+     target="_blank" rel="noopener">India Labour Force Survey (PLFS) — MoSPI</a>
+
+  <a class="link" href="https://www.business-standard.com" 
+     target="_blank" rel="noopener">India Labour Market Coverage — Business Standard</a>
       </div>
 
       <div class="card">
@@ -342,8 +357,8 @@ if (q.includes("how are you")) {
   (function init(){
   const nl = document.getElementById('newsletterLink');
     const cb = document.getElementById('compBandsLink');
-   if (nl) nl.href = LINKS.NEWSLETTER || "Work in progress..";
-    if (cb) cb.href = LINKS.COMP_BANDS || "Work in progress..";
+   if (nl) nl.href = LINKS.NEWSLETTER || " We are working on this! You’ll see more exciting updates here soon";
+    if (cb) cb.href = LINKS.COMP_BANDS || " We are working on this! You’ll see more exciting updates here soon";
   })();
 
   // Trigger search when pressing Enter inside the search box
@@ -358,5 +373,6 @@ document.getElementById("searchBox").addEventListener("keypress", function(e) {
 
 </body>
 </html>
+
 
 
