@@ -122,7 +122,6 @@ Quick access to JD, SPOT, Pipeline, Offers, Trends & FAQs</div>
       <button class="btn" data-key="JD">📄 JD Template</button>
       <button class="btn" data-key="SPOT">📝 SPOT Template</button>
       <button class="btn" data-key="PIPELINE">📊 Pipeline (Greenhouse)</button>
-      <button class="btn" data-key="OFFER_DASH">💼 Offer Dashboard</button>
       <button class="btn" data-key="HIRING_DASH">📈 Hiring Dashboard</button>
       <button class="btn" data-key="GOODTIME_CAL">📅 Goodtime Calendar</button>
       <button class="btn" data-key="INTERVIEW_FRAME">🧭 Interview Framework</button>
@@ -167,7 +166,6 @@ Quick access to JD, SPOT, Pipeline, Offers, Trends & FAQs</div>
       <a class="link" href="https://docs.google.com/document/d/1gFJww0vCNeqDkvLaPJ13Jv8WkhGt0cJtKzw17WrXLmA/edit?usp=sharing" target="_blank">Open SPOT Template</a>
       <a class="link" href="https://app3.greenhouse.io/alljobs" target="_blank">Greenhouse — All Jobs (Pipeline)</a>
       <a class="link" href="https://lookerstudio.google.com/reporting/76c85a51-3969-43fe-854d-ce5e9d9fa509/page/p_lswqdzrkqd?utm_source=google-datastudio&utm_medium=email&utm_campaign=scheduled-report" target="_blank">Hiring Dashboard</a>
-      <a class="link" href="https://lookerstudio.google.com/u/0/reporting/662fbf48-0ca0-496b-ac66-fe7dbb93e48f/page/p_xpm2or0bqd?s=myW_FlYQ7V0" target="_blank">Offer Dashboard</a>
     </div>
 
     <div class="card">
@@ -301,11 +299,7 @@ India Skills Report 2025  </a>
     `<b>Hiring Dashboard</b><br><a href="${LINKS.HIRING_DASH}" target="_blank">Open Hiring Dashboard</a>`;
   return;
 }
-    if (q.includes("offer")) {
-      document.getElementById('result').innerHTML = `<b>Offer Dashboard</b><br><a href="${LINKS.OFFER_DASH}" target="_blank">Open Offer Dashboard</a>`;
-      return;
-    }
-    if (
+       if (
       q.includes("hiring dash") ||
       q.includes("hiring dashboard") ||
       q.includes("ssot") ||
@@ -353,6 +347,7 @@ document.getElementById('result').innerHTML =
 
 </body>
 </html>
+
 
 
 
